@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>logo.ico">
+    <title>DeepReSPred</title>
+
+    <!------------------- Librerias -------------------->
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Nunito+Sans:wght@400;600;700&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Icons fontawesome -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Material+Icons">
+	  <script src="https://kit.fontawesome.com/4d8d9d6354.js" crossorigin="anonymous"></script>
+
+    <!-- Jmol 14.31.60
+    <script src="/jmol/jsmol/JSmol.min.js"></script>
+    <script src="/jmol/jsmol/js/Jmol2.js"></script>
+    
+    <style>
+      #jmolApplet1_appletinfotablediv{
+        transform:translate(160%,-195%);
+      }
+    </style>
+            -->
+
+    <!-- MOL* -->
+
+    <!-- Required for IE11 -->
+    <script src="https://cdn.jsdelivr.net/npm/babel-polyfill/dist/polyfill.min.js"></script>
+    <!-- Web component polyfill (only loads what it needs) -->
+    <script src="https://cdn.jsdelivr.net/npm/@webcomponents/webcomponentsjs/webcomponents-lite.js" charset="utf-8"></script>
+    <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+    <script src="https://cdn.jsdelivr.net/npm/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js" charset="utf-8"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="https://www.ebi.ac.uk/pdbe/pdb-component-library/css/pdbe-molstar-1.2.0.css">
+
+    <!-- For Light Theme include this css file instead of above -->
+    <!--<link rel="stylesheet" type="text/css" href="https://www.ebi.ac.uk/pdbe/pdb-component-library/css/pdbe-molstar-light-1.2.0.css">-->
+    <!--
+    Tip: Set background color to white for light theme
+    -->
+
+    <!-- JS -->
+    <script type="text/javascript" src="https://www.ebi.ac.uk/pdbe/pdb-component-library/js/pdbe-molstar-component-1.2.0.js"></script>
+
+
+    <!--Loading Spinner-->
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/vue-spinners-css"></script>
+
+<style>
+  .msp-plugin .msp-layout-expanded{
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    transform: translate(-4%,-88%) !important;
+    width: 109%;
+    min-width: none;
+    max-height: 65%;
+}
+.msp-plugin .msp-layout-standard-outside{
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    transform: translate(0%,0%) !important;
+}
+</style>
+
+
+  </head>
+  <body>
+    <noscript>
+      <strong>We're sorry but RepeatProtPred doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>
