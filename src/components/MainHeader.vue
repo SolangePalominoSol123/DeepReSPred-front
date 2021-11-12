@@ -17,10 +17,10 @@
             <div class="project-header" href="#toolInstTab" @click="goToolInst">Tool Instructions</div>
             <div class="rectangle"></div><!-- v-bind:class="{activeRectangle: isActive1}"></div-->
           </div>
-          <div class="group">
+          <!--div class="group">
             <div class="project-header" @click="goProjInf">Project Information</div>
-            <div class="rectangle"></div><!-- v-bind:class="{activeRectangle: isActive1}"></div-->
-          </div> 
+            <div class="rectangle"></div>
+          </div--> 
         </div>         
   </header>
 
@@ -181,7 +181,6 @@ h5{
     margin-right:100px;
     font-size:30px;
 }
-
 .group{
   align-items: center;
   display: flex;

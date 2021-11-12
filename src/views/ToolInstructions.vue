@@ -1,76 +1,89 @@
 <template>
   <div class="tabSection">
     <h1>Tool Instructions</h1>
-    <p>With a few clicks you can generate a prediction request to get predicted models. To use DeepReSPred server you must follow this manual.</p>
+    <p>With a few clicks you can generate a prediction request to get predicted models from a repeat protein. To use DeepReSPred server you must follow the following steps:</p>
 
-    <div class="resulRequest" v-if="false">
-      <div class="rowTitleSearch">
-        <div>
-          <h3 class="titleBold">Prediction Request</h3>
-        </div>
-        <div class="rowStatusearch">
-          <h3 class="titleSingle">Processing Status: </h3>
-          <h3 class="statusSingle">{{statusReq}}</h3>
-        </div>
+    <div class="container">
+            <div class="row" style="margin-bottom: 35px; margin-top: 25px;">
+              <div class="col-sm">
+                <h3 class="statusSingle">1</h3>
+                <h3 class="titleBold" style="margin-bottom:40px;"> Enter the repeat protein data</h3>
+                <label class="labels">From main page, you are able to enter the repeat protein data in three formats.</label>
+                <label class="labels"><label style="font-weight: bold;">First</label>, you can enter in the text field a PFAM ID directly, the fragments of a repeat protein family or a complete sequence of a repeat protein.</label>
+                <label class="labels"><label style="font-weight: bold;">Second</label>, you can upload repeat protein family data in a plain text, fasta or Stockholm file.</label>
+                <label class="labels"><label style="font-weight: bold;">Third</label>, you can select one of the two example input: PFAM ID or a repeat protein sequence.</label>
+                <label class="labels" style="font-weight: bold;justify-content: center;text-align: center;margin-top:13px;font-size:12px;">For new ones, we recommend using the third option...</label>
+              </div>
+              <div class="col-sm">
+                <h3 class="statusSingle">2</h3>
+                <h3 class="titleBold" style="margin-bottom:40px;">Let's start</h3>
+                <label class="labels">Only if you insert data in the text field of the form, the button <label style="font-weight: bold;">"Start"</label> will be available.</label>
+                <label class="labels">After pressing it, DeepReSPred will show you the summary of the information you have entered. Please check it and make sure it corresponds to the data you want to send.</label>
+              </div>
+              <div class="col-sm">
+                <h3 class="statusSingle">3</h3>
+                <h3 class="titleBold" >Fill additional data: Request Identifier</h3>
+                <label class="labels">In the same summary form, DeepReSPred will automatically assign an <label style="font-weight: bold;">unique and random </label> identifier to the prediction request you are going to register.</label>
+                <label class="labels">You can change it as long as the identifier has not been registered before. The system will advise you is your ID is invalid or no.</label>
+                <label class="labels">In case, this happen an your ID is invalid, you could reload the recommended DeepReSPred Identifier.</label>
+              </div>
+            </div>
+
+            <div class="row" style="margin-bottom: 35px; margin-top: 25px;">
+              <div class="col-sm">
+                <h3 class="statusSingle">4</h3>
+                <h3 class="titleBold" style="margin-bottom:40px;"> Fill additional data: Email</h3>
+                <label class="labels">DeepReSPred will send you important information in two cases:</label>
+                <label style="font-weight: bold;font-size:13px;">* Your prediction request has been successfully registered</label>
+                <label class="labels">It is optional but you also will received your request identifier for asking for the status processing later.</label>
+                <label style="font-weight: bold;font-size:13px;">* Your prediction request has already finished</label>
+                <label class="labels">DeepReSPred will notify you about the status of you prediction request.</label>
+                <label class="labels" style="justify-content: left;">Addittionally, it will send you the PDB results.</label>
+              </div>
+              <div class="col-sm">
+                <h3 class="statusSingle">5</h3>
+                <h3 class="titleBold" style="margin-bottom:40px;">Send Request</h3>
+                <label class="labels">If there is no any error in the input you have entered, the <label style="font-weight: bold;">"Send request"</label> option will be available.</label>
+                <label class="labels">Note that only the input data field and the request identifier field are check with a red asterisk, that means they are mandatory.</label>
+                <label class="labels">After pressing it, DeepReSPred will show you a confirmation/error message about your request registration.</label>
+                <label class="labels">You could see the information you have registered and two options. Press <label style="font-weight: bold;">"Search request"</label> to redirect you to the search section and so that you can consult for your request</label>
+              </div>
+              <div class="col-sm">
+                <h3 class="statusSingle">6</h3>
+                <h3 class="titleBold" style="margin-bottom:40px;">Check the status and results</h3>
+                <label class="labels">You must go to the <label style="font-weight: bold;">Search section</label>  in the bottom of the page to look for your request.</label>
+                <label class="labels">All you need to insert in the PREDICTION IDENTIFICATION is the generated ID. If you entered an email, check it there.</label>
+                <label class="labels">Press the button with a magnifying glass icon to ask for your request.</label>
+              </div>
+            </div>
+
+
+
+            <div class="row" style="margin-bottom: 35px; margin-top: 25px;">
+              <div class="col-sm">
+                <h3 class="statusSingle">7</h3>
+                <h3 class="titleBold">Understand your status request</h3>
+                <label class="labels">After inserting the request ID and press the button, DeepReSPred will show you its status. This can take four values: <label style="font-weight: bold;">No Status</label>, means some error in retrieving the information or the request does not exists.</label>
+                <label class="labels">The value <label style="font-weight: bold;">Error</label> means that there has been some issues in the processing request and it will not be finished.</label>
+                <label class="labels"><label style="font-weight: bold;">Registered</label> and <label style="font-weight: bold;">Processing</label> are good signals that your request is being or it will be attended.</label>
+                <label class="labels">In the same way, the <label style="font-weight: bold;">Completed</label> means that the prediction process has finished. In this case you will be able to see a list of the results generated by the algorithm.</label>
+              </div>
+              <div class="col-sm">
+                <h3 class="statusSingle">8</h3>
+                <h3 class="titleBold">Visualize or download your results</h3>
+                <label class="labels">When your prediction requested is completed, you will be able to visualize the generated 3D structures of the repeat protein registered.</label>
+                <label class="labels">DeepReSPred uses the <label style="font-weight: bold;">Mol*</label> component to get it. This tool has more functinalities availables as viewer in full scren, zoom in, zoom out, a spin option and more.</label>
+                <label class="labels">You can also download the files generated. You just have to select the buttons corresponding to the structure you want.</label>
+              </div>
+              <div class="col-sm">
+                <h3 class="statusSingle">9</h3>
+                <h3 class="titleBold">Resend the results to your email</h3>
+                <label class="labels">Finally but not least, even you have registered or not an email for the prediction request, you could get <label style="font-weight: bold;">all the result files</label> in your email. Just insert a valid email.</label>
+                <p style="font-weight: bold;font-size:25px; margin-top:40px;">Are you ready?</p>
+              </div>
+            </div>
+
       </div>
-      <div class="container">
-        <div class="row align-items-start">
-          
-          <div class="col">
-            <div class="rowSequenceSearch">
-              <label for="inputSequence" class="labels">Requested repeat protein sequence or PFAM ID</label>
-              <textarea class="form-control" id="inputSequence" rows="3" placeholder="Requested sequence" v-model="dataSeqContentReq" :disabled="true"></textarea>
-            </div>
-            <div class="rowStatusearch" style="justify-content: right;">
-              <h3 class="labels">Residues quantity: </h3>
-              <h3 class="littleBold">{{numResidueReq}}</h3>
-            </div>
-            <div>
-              <h3 class="titleBold">Prediction Results</h3>
-            </div>
-            <div>
-              <h3 class="labels">Download the predicted 3D protein models (PDB files)</h3>
-              <h3 class="littleBold" style="margin-top:40px;margin-bottom:40px;" v-if="disabledResend">No generated results yet</h3>
-              <!--div>FALTAN LOS MODELOS GENERADOS</div-->
-            </div>
-            <div>
-              <h3 class="labels">Re-send generated results to email</h3>
-            </div>
-
-            <div class="rowLabel" style="margin-bottom:20px;">
-              <div>
-                <h3 class="labels" style="font-weight: 600;">Insert email: </h3>
-              </div>
-              <div class="rowLabelItem">
-                <input type="text" class="form-control form-control-sm" placeholder="i.e. name@example.com" v-model="emailPredictionReq"/>
-              </div>
-              <div class="rowLabelItem">
-                <button @click="searchPrediction" class="btn btn-warning" :disabled="disabledResend">Send</button>
-              </div>
-            </div>
-
-          </div>
-
-          <div class="col" style="margin-left:5%;padding-top:1%;">
-            <div class="rowTitleSearch">
-              <div class="colViewer">
-                <h3 class="littleBold" >3D Prediction Viewer</h3>
-              </div>
-            </div>
-            <div class="rowTitleSearch">
-              <div>
-                <h3 class="littleBold">Tool used: Visualization Mol*</h3>
-              </div>
-              <div class="rowStatusearch" style="cursor:pointer;">
-                <span class="material-icons" @click="goToolInst">info</span>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
   </div>
 </template>
 
@@ -235,7 +248,7 @@ h1{
   font-size: 25px;
   line-height: 34px;
   color: #341731;
-  text-align: initial;
+  text-align: center;
 }
 .titleSingle{
   font-style: normal;
@@ -249,9 +262,10 @@ h1{
   font-weight: bold;
   font-size: 25px;
   line-height: 34px;
-  text-align: right;
+  text-align: left;
   color: #57276D;
-  margin-left:10px;
+  text-decoration: underline dotted;
+  text-underline-offset: 5px;
 }
 .statusSingle:disabled{
   color: #B8BCCA;

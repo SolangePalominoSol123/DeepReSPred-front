@@ -185,7 +185,7 @@
       <div id="nav" v-if="returnValueFlag">
         <router-link to="/" id="searchTab" @click="goSearchPred">Search prediction</router-link> |
         <router-link to="/toolInstructions" id="toolInstTab" @click="goToolInst">Tool instructions</router-link> |
-        <router-link to="/projectInformation" id="projInfTab" @click="goProjInf">Project Information</router-link> |
+        <!--router-link to="/projectInformation" id="projInfTab" @click="goProjInf">Project Information</router-link> |-->
         <router-link to="/bibliography" id="biblioTab">Bibliography</router-link>
       </div>
 
@@ -198,15 +198,16 @@
     <footer v-if="returnValueFlag">          
         <div class="rowLabel">
           <div class="rowLabel">
-            <button @click="changeLanguage" class="btnLanguage">Spanish
-              <span class="material-icons">language</span>
-            </button>            
+                <div class="heading">
+                    <span class="material-icons" style="font-size:30px;">grain</span>
+                    <h3 style="color: #57276D;font-family: 'Montserrat', sans-serif;display:inline-block;margin-right:100px;font-size:30px;">DeepReSPred</h3>
+                </div>           
           </div>
           <div>
-            <span class="material-icons" @click="goInitPage" style="cursor:pointer;font-size:33px;">keyboard_double_arrow_up</span>
+            <span class="material-icons" @click="goInitPage" style="cursor:pointer;font-size:33px;transform: translate(-40px, 0px);">keyboard_double_arrow_up</span>
           </div>
           <div>
-            <button @click="adminLogin" class="btn btn-warning">Admin Login</button>
+            <button @click="adminLogin" class="btn btn-warning" style="width=140%;">Admin Login</button>
           </div>
         </div>
     </footer>
@@ -304,8 +305,8 @@ export default {
       fileName: '',
       fileFormat: '',
       dataSeqContent:'',
-      exampleInputSeq: 'NKYDALTQVLSRADILKIACHDCAAHALQAVLDYEQVFRQRGFARADIIKITGNGGGAQALKAVVVHGPTLNECGFSQADIVRIADNIGGAQALKAVLEHGPTLNERDYSGADIVKIAGNGGGARALKAVVMHGPTLCESGYSGADIVKIASNGGGAQALEAVAMHGSTLCERGYCRTDIAKIAGNGGGAQALKAIVMHGPTLCERGYSRTDIVKIADNNGGAQALKAVFEHGPALTQAGRSN', //BAT3_MYCRK
-      exampleInputPFAMID: 'PF00806', //Pumilio-family
+      exampleInputSeq: 'MADRYIPEHRRTQFKAKSAFKPDELRRRREEQQVEIRKAKREENLAKRRGIGAGDSRPGASLGAAPDSDDENPPTESQLSEDLPKMVEGVFSSEIDKQIQATTKFRKLLSKERNPPIEEVIKTGVVGRFVEFLRSPHTLVQFEAAWALTNIASGSATQTQVVIEAGAVPIFVELLGSPEPDVREQAVWALGNIAGDSPQCRDYVLSCGALRPLLTLLGDSRKLSMLRNATWTLSNFCRGKTPQPDWNTIAPALPVLAKLVYSLDDEVLIDACWAISYLSDGSNDKIQAVIEAGIPRRLVELLMHASTSVQTPALRSVGNIVTGDDVQTQVIINCGALPCLLSLLSSNKDGIRKEACWTISNITAGNSAQIQSVIDANIIPPLIHLLSHADLKTRKEACWAISNATSGGLQKPDQIRYLVAQGCIKPLCDLLACPDNKIIQVALDGLENILKVGELDKNAAGDGPDSINRYALFIEECGGMEKIHDCQTNANEEIYMKAYNIIEKYFSDEDEAGDEAMGAQQQFGFGASGGAQQGGFNFGANGTESMDM',//'NKYDALTQVLSRADILKIACHDCAAHALQAVLDYEQVFRQRGFARADIIKITGNGGGAQALKAVVVHGPTLNECGFSQADIVRIADNIGGAQALKAVLEHGPTLNERDYSGADIVKIAGNGGGARALKAVVMHGPTLCESGYSGADIVKIASNGGGAQALEAVAMHGSTLCERGYCRTDIAKIAGNGGGAQALKAIVMHGPTLCERGYSRTDIVKIADNNGGAQALKAVFEHGPALTQAGRSN', //BAT3_MYCRK
+      exampleInputPFAMID: 'PF18773', //Importin-rep
       emailPredictionReq:'',
       IDPredictionReq:'',
       IDPredictionReqSuggestion:'',

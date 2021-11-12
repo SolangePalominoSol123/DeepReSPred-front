@@ -1,76 +1,79 @@
 <template>
   <div class="tabSection">
     <h1>Bibliography</h1>
-    <p>The DeepReSPred is a web service that use many freely available resources. Some of them with educational free licenses requested to the owners.</p>
-    <p>In this section you will find the information of every research, web pages or software, in general, that has been used to build the whole algorithm presented in this web page.</p>
+    <p>DeepReSPred is a web service that uses many resources that are available for free. Some of them with free educational licenses requested directly from the owners. In addition, information has been collected from different sources, thanks to which this project has been able to be carried out. The DeepReSPred team thanks each of the authors.</p>
+    <p>In this section you will find the information of researchs, web pages or softwares, in general, that has been used to build the whole algorithm presented in this web page.</p>
 
-    <div class="resulRequest" v-if="false"> 
-      <div class="rowTitleSearch">
-        <div>
-          <h3 class="titleBold">Prediction Request</h3>
-        </div>
-        <div class="rowStatusearch">
-          <h3 class="titleSingle">Processing Status: </h3>
-          <h3 class="statusSingle">{{statusReq}}</h3>
-        </div>
-      </div>
+
+    <div class="resulRequest" > 
+
       <div class="container">
-        <div class="row align-items-start">
-          
-          <div class="col">
-            <div class="rowSequenceSearch">
-              <label for="inputSequence" class="labels">Requested repeat protein sequence or PFAM ID</label>
-              <textarea class="form-control" id="inputSequence" rows="3" placeholder="Requested sequence" v-model="dataSeqContentReq" :disabled="true"></textarea>
-            </div>
-            <div class="rowStatusearch" style="justify-content: right;">
-              <h3 class="labels">Residues quantity: </h3>
-              <h3 class="littleBold">{{numResidueReq}}</h3>
-            </div>
-            <div>
-              <h3 class="titleBold">Prediction Results</h3>
-            </div>
-            <div>
-              <h3 class="labels">Download the predicted 3D protein models (PDB files)</h3>
-              <h3 class="littleBold" style="margin-top:40px;margin-bottom:40px;" v-if="disabledResend">No generated results yet</h3>
-              <!--div>FALTAN LOS MODELOS GENERADOS</div-->
-            </div>
-            <div>
-              <h3 class="labels">Re-send generated results to email</h3>
-            </div>
-
-            <div class="rowLabel" style="margin-bottom:20px;">
-              <div>
-                <h3 class="labels" style="font-weight: 600;">Insert email: </h3>
+            <div class="row" style="margin-bottom: 35px; margin-top: 25px;">
+              <div class="col-sm">
+                <h3 class="titleBold">DMPfold</h3>
+                <label class="labels">Greener, J. G., Kandathil, S. M., & Jones, D. T. (2019). Deep learning extends de novo protein modelling coverage of genomes using iteratively predicted structural constraints. https://doi.org/10.1038/s41467-019-11994-0</label>
               </div>
-              <div class="rowLabelItem">
-                <input type="text" class="form-control form-control-sm" placeholder="i.e. name@example.com" v-model="emailPredictionReq"/>
+              <div class="col-sm">
+                <h3 class="titleBold">RepeatsDB</h3>
+                <label class="labels">Paladin, L., Bevilacqua, M., Errigo, S., Piovesan, D., Mičetić, I., Necci, M., Monzon, A. M., Fabre, M. L., Lopez, J. L., Nilsson, J. F., Rios, J., Menna, P. L., Cabrera, M., Buitron, M. G., Kulik, M. G., Fernandez-Alberti, S., Fornasari, M. S., Parisi, G., Lagares, A., … Tosatto, S. C. E. (2021). RepeatsDB in 2021: Improved data and extended classification for protein tandem repeat structures. Nucleic Acids Research, 49(D1), D452–D457. https://doi.org/10.1093/nar/gkaa1097</label>
               </div>
-              <div class="rowLabelItem">
-                <button @click="searchPrediction" class="btn btn-warning" :disabled="disabledResend">Send</button>
+              <div class="col-sm">
+                <h3 class="titleBold">PFAM</h3>
+                <label class="labels">Mistry, J., Chuguransky, S., Williams, L., Qureshi, M., Salazar, G. A., Sonnhammer, E. L. L., Tosatto, S. C. E., Paladin, L., Raj, S., Richardson, L. J., Finn, R. D., & Bateman, A. (2021). Pfam: The protein families database in 2021. Nucleic Acids Research, 49(D1), D412–D419. https://doi.org/10.1093/NAR/GKAA913</label>
               </div>
             </div>
 
-          </div>
-
-          <div class="col" style="margin-left:5%;padding-top:1%;">
-            <div class="rowTitleSearch">
-              <div class="colViewer">
-                <h3 class="littleBold" >3D Prediction Viewer</h3>
+            <div class="row" style="margin-bottom: 35px; margin-top: 25px;">
+              <div class="col-sm">
+                <h3 class="titleBold">RCSB Protein Data Bank</h3>
+                <label class="labels">Burley, S. K., Bhikadiya, C., Bi, C., Bittrich, S., Chen, L., Crichlow, G. v., Christie, C. H., Dalenberg, K., di Costanzo, L., Duarte, J. M., Dutta, S., Feng, Z., Ganesan, S., Goodsell, D. S., Ghosh, S., Green, R. K., Guranovic, V., Guzenko, D., Hudson, B. P., … Zhuravleva, M. (2021). RCSB Protein Data Bank: Powerful new tools for exploring 3D structures of biological macromolecules for basic and applied research and education in fundamental biology, biomedicine, biotechnology, bioengineering and energy sciences. Nucleic Acids Research, 49(1), D437–D451. https://doi.org/10.1093/nar/gkaa1038</label>
+              </div>
+              <div class="col-sm">
+                <h3 class="titleBold">RepeatsDB 2.0</h3>
+                <label class="labels">Paladin, L., Hirsh, L., Piovesan, D., Andrade-Navarro, M. A., Kajava, A. v, & Tosatto, S. C. E. (2017). RepeatsDB 2.0: improved annotation, classification, search and visualization of repeat protein structures. Nucleic Acids Research, 45. https://doi.org/10.1093/nar/gkw1136</label>
+              </div>
+              <div class="col-sm">
+                <h3 class="titleBold">Crystallography & NMR System</h3>
+                <label class="labels">A.T. Brunger, P.D. Adams, G.M. Clore, P.Gros, R.W. Grosse-Kunstleve, J.-S. Jiang, J. Kuszewski, N. Nilges, N.S. Pannu, R.J. Read, L.M. Rice, T. Simonson, G.L. Warren,Crystallography & NMR System (CNS), A new software suite for macromolecular structure determination, Acta Cryst.D54, 905-921(1998)</label>
+                <label class="labels">A.T. Brunger, Version 1.2 of the Crystallography and NMR System, Nature Protocols 2, 2728-2733 (2007).</label>
               </div>
             </div>
-            <div class="rowTitleSearch">
-              <div>
-                <h3 class="littleBold">Tool used: Visualization Mol*</h3>
+
+            <div class="row" style="margin-bottom: 35px; margin-top: 25px;">
+              <div class="col-sm">
+                <h3 class="titleBold">Uniprot Consortium</h3>
+                <label class="labels">UniProt Consortium. (2021a). About UniProt. https://www.uniprot.org/help/about</label>
               </div>
-              <div class="rowStatusearch" style="cursor:pointer;">
-                <span class="material-icons" @click="goToolInst">info</span>
+              <div class="col-sm">
+                <h3 class="titleBold">HH-BLits</h3>
+                <label class="labels">Steinegger M, Meier M, Mirdita M, Vöhringer H, Haunsberger S J, and Söding J (2019) HH-suite3 for fast remote homology detection and deep protein annotation.
+                                BMC Bioinformatics, doi:10.1186/s12859-019-3019-7
+                                      (c) The HH-suite development team</label>
+              </div>
+              <div class="col-sm">
+                <h3 class="titleBold">Usability as a key factor</h3>
+                <label class="labels">Paixão-Cortes, V. S. M., Tanus, M. S. S., Paixão-Cortes, W. R., de Souza, O. N., Campos, M. B., & Silveira, M. S. (2018). Usability as the key factor to the design of a web server for the CReF protein structure predictor: The wCReF. Information (Switzerland), 9(1). https://doi.org/10.3390/info9010020</label>
               </div>
             </div>
-          </div>
 
-        </div>
+
+            <div class="row" style="margin-bottom: 35px; margin-top: 25px;">
+              <div class="col-sm">
+                <h3 class="titleBold">Protein sequence to structure learning</h3>
+                <label class="labels">Laine, E., Eismann, S., Elofsson, A., & Grudinin, S. (2021). Protein sequence-to-structure learning: Is this the end(-to-end revolution)? https://arxiv.org/abs/2105.07407</label>
+              </div>
+              <div class="col-sm">
+                <h3 class="titleBold">Mol*</h3>
+                <label class="labels">David Sehnal, Sebastian Bittrich, Mandar Deshpande, Radka Svobodová, Karel Berka, Václav Bazgier, Sameer Velankar, Stephen K Burley, Jaroslav Koča, Alexander S Rose: Mol* Viewer: modern web app for 3D visualization and analysis of large biomolecular structures, Nucleic Acids Research, 2021; 10.1093/nar/gkab31.</label>
+              </div>
+              <div class="col-sm">
+                <h3 class="titleBold">CCMPred</h3>
+                <label class="labels">Seemayer S, Gruber M, Söding J. CCMpred--fast and precise prediction of protein residue-residue contacts from correlated mutations. Bioinformatics. 2014 Nov 1;30(21):3128-30. doi: 10.1093/bioinformatics/btu500. Epub 2014 Jul 26. PMID: 25064567; PMCID: PMC4201158.</label>
+              </div>
+            </div>
+
       </div>
-    </div>
+     </div>
 
   </div>
 </template>
@@ -207,6 +210,8 @@ h1{
   -ms-flex-align: center;
   align-items: center;
   -webkit-box-pack: justify;  
+  margin-bottom: 35px;
+  margin-top: 25px;
 }
 
 .rowStatusearch{

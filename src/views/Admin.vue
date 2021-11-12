@@ -32,30 +32,12 @@
                             <label>Max. residues</label>
                             <input type="number" class="form-control form-control-sm" v-model="maxResidues" :disabled="!flagEdicion" @input="validaMaxResidues">
                             <span class="mensajeError">{{errorMaxResidues}}</span>
-                            <!--div class="input-group mb-3">
-                                <input type="number" class="form-control form-control-sm" placeholder="70" readonly>
-                                <input type="number" class="form-control form-control-sm" placeholder="50" readonly>
-                            </div-->
                         </div> 
                         <div class="col">
                             <label>Max. Number of requests per day</label>
                             <input type="number" class="form-control form-control-sm" v-model="maxRequests" :disabled="!flagEdicion" @input="validaMaxRequests">
                             <span class="mensajeError">{{errorMaxRequests}}</span>
-                            <!--div class="input-group mb-3">
-                                <input type="number" class="form-control form-control-sm" placeholder="70" readonly>
-                                <input type="number" class="form-control form-control-sm" placeholder="50" readonly>
-                            </div-->
-                        </div> 
-                        <!--div class="col">
-                            <label>Ubicación almacén ( X , Y )</label>
-                            <div class="input-group mb-3">
-                                <input type="number" class="form-control form-control-sm" v-model="posAlmacenXIn" placeholder="X" min=0 :disabled="!flagEdicion" @input="validaCoord">
-                                <input type="number" class="form-control form-control-sm" v-model="posAlmacenYIn" placeholder="Y" min=0 :disabled="!flagEdicion" @input="validaCoord">
-                            </div>
-                            <div class="input-group mb-3">                        
-                                <span class="mensajeError">{{errorUbicacion}}</span>
-                            </div>                            
-                        </div-->                  
+                        </div>                  
                     </div>                   
                 </div>
 
@@ -81,12 +63,12 @@
                             <div class="row align-items-start">
                             <div class="col">
                                 <label>IP Client</label>
-                                <input type="number" class="form-control form-control-sm" v-model="IPIn" placeholder="Enter a IP Client">
+                                <input type="text" class="form-control form-control-sm" v-model="IPIn" placeholder="Enter a IP Client">
                             </div> 
                             <div class="col">
                                 <label>Status</label>
                                 <select class="form-select form-select-sm" ref="statusFilter" @change="updateStatusIn">
-                                <option v-for="(option,index) in optionsStatusIn" :selected="selectedStatusIn===option.value" :key="index">{{option.text}}</option>
+                                <option v-for="(option,index) in optionsStatusIn" :selected="selectedStatusIn==option.value" :key="index">{{option.text}}</option>
                                 </select>
                             </div>
                             </div>
@@ -121,7 +103,7 @@
                             <th scope="col" class="text-center col-sm-2">Last Access</th>
                             <th scope="col" class="text-center col-sm-1"># Requests</th>
                             <th scope="col" class="text-center col-sm-1">Status</th>              
-                            <th scope="col" class="text-center col-sm-1">Actions</th>
+                            <!--th scope="col" class="text-center col-sm-1">Actions</th-->
                             </tr>
                         </thead>
                         <tbody v-if="listedAccesses.length>0">
@@ -133,10 +115,10 @@
                             <td class="text-center">{{item.lastAccess}}</td>
                             <td class="text-center">{{item.numRequests}}</td>
                             <td class="text-center">{{item.status}}</td>
-                            <td class="text-center" :class="'botonTabla'">
+                            <!--td class="text-center" :class="'botonTabla'">
                                 <button type="button" class="btn" :class="'botonTabla'" @click="lock(item)" v-if="item.status=='ENABLED'" data-toggle="tooltip" data-placement="top" title="Lock client"><i class="fas fa-door-closed"></i></button>                                
                                 <button type="button" class="btn" :class="'botonTabla'" @click="unlock(item)" v-if="item.status!='ENABLED'" data-toggle="tooltip" data-placement="top" title="Unlock client"><i class="fas fas fa-door-open"></i></button>
-                            </td>
+                            </td-->
                             </tr>
                         </tbody>          
                         </table>
@@ -243,13 +225,15 @@ export default {
         //tabla
         page: 1,
         perPage: 4,
-        pages: [],
+        pages: [1],
+        //filters
+        IPIn:"",
         selectedStatusIn:'0',
-        valorSelectedStatusIn:'',
+        valorSelectedStatusIn:'GENERAL',
         optionsStatusIn:[
-            {id:1, value:0, text:"General"},
-            {id:2, value:1, text:"Locked"},
-            {id:3, value:2, text:"Unlocked"}
+            {id:1, value:0, text:"GENERAL"},
+            {id:2, value:1, text:"ENABLED"},
+            {id:3, value:2, text:"DISABLED"}
         ],
         cpuNumber:5,
         maxResidues:380,
@@ -288,6 +272,28 @@ export default {
       }
       this.flagCancela=true;
       //si hubo error cargar los valores iniciales
+    },
+    updateStatusIn: function(){
+        var value=this.$refs.statusFilter.value;
+        this.valorSelectedStatusIn=value;
+
+        for(var i=0;i<this.optionsStatusIn.length;i++){
+            if(this.optionsStatusIn[i]["text"]==value){
+                this.selectedStatusIn=i;
+                break;
+            }
+        }
+        console.log(this.selectedStatusIn);
+        console.log(this.valorSelectedStatusIn);
+
+    },
+    cleanFilters:function(){
+        this.selectedStatusIn=0;
+        this.valorSelectedStatusIn="GENERAL";
+        this.IPIn="";
+    },
+    searchAccess: function(){
+        this.getAccesses();
     },
     cancelConfig:function(){
       this.cerrarModal();
@@ -363,9 +369,16 @@ export default {
       }); 
     },
     getAccesses: function(){
-        this.axios.get('/access/').then(response=>{
+        var dataSend={
+            "status":this.valorSelectedStatusIn,
+            "ipSearch":this.IPIn
+        };
+        console.log("Consulting...");
+        console.log(dataSend);
+        this.axios.post('/access/', dataSend).then(response=>{
             this.listAccesses=response.data.accesses;
             console.log(this.listAccesses);
+            this.setPages();
             this.listedAccesses=this.paginate();
         }).catch(e=>{
             console.log(e);

@@ -36,26 +36,67 @@
               <textarea class="form-control" id="inputSequence" rows="5" placeholder="Requested sequence" v-model="dataSeqContentReq" :disabled="true"></textarea>
             </div>
             <div class="rowStatusearch" style="justify-content: right;">
-              <h3 class="labels">Residues quantity: </h3>
-              <h3 class="littleBold">{{numResiduesReq}}</h3>
+              <!--h3 class="labels">Residues quantity: </h3-->
+              <!--h3 class="littleBold">{{numResiduesReq}}</h3-->
             </div>
             <div style="margin-top:20px;">
               <h3 class="titleBold">Prediction Results</h3>
             </div>
             <div style="margin-bottom:20px;">
+
               <h3 class="labels">Download the predicted 3D protein models (PDB files)</h3>
               <h3 class="labels" style="color: #109E2A;font-weight: bold;text-align: center;" v-if="flagMessageResults">---  Loading...  ---</h3>
               <h3 class="littleBold" style="margin-top:40px;margin-bottom:40px;" v-if="disabledResend">No generated results yet</h3>
-              <!--div>FALTAN LOS MODELOS GENERADOS     </div-->
-   
-              <div class="rowLabel2" v-for="(item,index) in filesResult" :key="index">
-                <div><h3 class="labels" style="font-weight: 600;">R{{index}}.</h3></div>
+              
+              <!--div>  MODELOS GENERADOS     </div-->  
+              <div class="rowLabel2" v-for="(item,index) in filesResultShowed" :key="index">
+                <div><h3 class="labels" style="font-weight: 600;">R{{(((page-1)*perPage)+index+1)}}.</h3></div>
                 <div><h3 class="labels" style="font-weight: 600;">{{item.nameFile}} </h3></div>
-                <div><h3 class="labels" style="font-weight: 600;margin-left:20px;margin-right:20px;">TM-score: {{item.tmscore}}</h3></div>
-                <div class="rowLabelItem"><span class="material-icons" style="cursor:pointer;" @click="onClickLinkFile(item)">file_download</span></div>
-                <div class="rowLabelItem"><span class="material-icons" style="cursor:pointer;" @click="onClickSeeResult(item)">preview</span></div>
+                <div><h3 class="labels" style="font-weight: 600;margin-left:20px;margin-right:20px;" v-if="item.tmscore!=0">TM-score: {{item.tmscore}}</h3></div>
+                <div class="rowLabelItem" style="cursor:pointer;font-size: 12px;font-weight: 200; text-decoration: underline dotted;text-underline-offset: 3px;" @click="onClickLinkFile(item)">
+                  <span class="material-icons" style="cursor:pointer;" @click="onClickLinkFile(item)">file_download</span>Download</div>
+                <div class="rowLabelItem" style="cursor:pointer;font-size: 12px;font-weight: 200; text-decoration: underline dotted;text-underline-offset: 3px;" @click="onClickSeeResult(item)">
+                  <span class="material-icons" style="cursor:pointer;" @click="onClickSeeResult(item)">preview</span>Preview</div>
               </div>
+
+              <!--div>  PAGINATION </div-->  
+              <nav aria-label="Page navigation example" v-if="!disabledResend">
+                  <ul class="pagination" style="place-content: center;align-items: center;">
+                      <li class="page-item">              
+                      <button type="button" class="page-link" @click="page=1;actualiza(page);" style="border-style: none;"> 
+                          <i class="fas fa-angle-double-left"></i> </button>
+                      </li>
+                      <li class="page-item">              
+                      <button type="button" class="page-link" @click="if(page>1){page--;actualiza(page);}" style="border-style: none;"> 
+                          <i class="fas fa-angle-left"></i> </button>
+                      </li>
+                      <li class="page-item">               
+                      <input type="text" class="page-link" @input="page = page.replace(/[^0-9]/g, '').replace(/(\..*?)\..*/g, '$1');" 
+                      @change="if(page>=1||page<=pages.length)actualiza(page);" v-model="page" style="width:50px;border-style: none; color:#341731;background: unset;">
+                      </li>
+                      <li class="page-item">
+                      <input type="text" class="page-link" style="width:50px;border-style: none; color:#341731;background: unset;" value="de" disabled>
+                      </li>
+                      <li class="page-item">
+                      <input type="text" class="page-link" :value="pages.length" style="width:50px;border-style: none; color:#341731;background: unset;" disabled>
+                      </li>
+                      <li class="page-item">
+                      <button type="button" @click="if(page<pages.length){page++;actualiza(page);}" class="page-link" style="border-style: none;">
+                          <i class="fas fa-angle-right"></i> </button>
+                      </li>
+                      <li class="page-item">
+                      <button type="button" @click="page=pages.length;actualiza(page);" class="page-link" style="border-style: none;"> 
+                          <i class="fas fa-angle-double-right"></i> </button>
+                      </li>
+                  </ul>
+              </nav>
+
+
+
+
             </div>
+
+
             <div>
               <h3 class="labels">Re-send generated results to email</h3>
             </div>
@@ -200,7 +241,10 @@ export default {
       numberResultsShow:5,
       errorView:"",
       flagMessageResults:false,
-      errorEmail:''
+      errorEmail:'',
+      page: 1,
+      perPage: 10,
+      pages: [1]
     }
   },
   computed:{
@@ -373,6 +417,8 @@ export default {
 
                 this.filesMiddle=filesMiddle;
                 this.filesResult=filesResult;
+                this.setPages();
+                this.filesResultShowed=this.paginate();
 
                 console.log(filesInput.length);
 
@@ -493,6 +539,31 @@ export default {
         else
           return false;
 
+      },
+      setPages () {
+        let numberOfPages = Math.ceil(this.filesResult.length / this.perPage);
+            console.log("número de pags:", numberOfPages);
+            this.pages=[];
+            
+          for (let index = 1; index <= numberOfPages; index++) {
+            this.pages.push(index);
+          }
+      },
+      paginate () {
+          let page = this.page;
+          let perPage = this.perPage;
+          let from = (page * perPage) - perPage;
+          let to = (page * perPage);
+          return  this.filesResult.slice(from, to);
+      },
+      toListAccess () { //a este se le llama despues de buscar
+          this.filesResultShowed=this.paginate(this.filesResult);
+          console.log("ver: ",this.filesResult);
+       },
+      actualiza(pagina){
+          console.log(pagina);
+          this.page=pagina;
+          this.toListAccess();
       }
 
   }
@@ -771,4 +842,15 @@ h1{
   color:#ED0131;
   font-size: small;
 }
+
+/*PAGINATION*/
+button.page-link {
+	display: inline-block;
+  font-size: 20px;
+  color: #341731;
+  font-weight: 500;
+  background: unset;
+}
+
+
 </style>
