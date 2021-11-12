@@ -17,6 +17,10 @@
             <div class="project-header" href="#toolInstTab" @click="goToolInst">Tool Instructions</div>
             <div class="rectangle"></div><!-- v-bind:class="{activeRectangle: isActive1}"></div-->
           </div>
+          <div class="group">
+            <div class="project-header" href="#toolInstTab" @click="goBibliography">Bibliography</div>
+            <div class="rectangle"></div><!-- v-bind:class="{activeRectangle: isActive1}"></div-->
+          </div>
           <!--div class="group">
             <div class="project-header" @click="goProjInf">Project Information</div>
             <div class="rectangle"></div>
@@ -103,6 +107,23 @@ export default {
         this.changeIsActive2(false);
         this.changeIsActive3(true);
         this.changeIsActive4(false);
+        this.isActive1=this.isActive1_;
+        this.isActive2=this.isActive2_;
+        this.isActive3=this.isActive3_;
+        this.isActive4=this.isActive4_;
+        window.scrollTo(0,900); //elemento.getBoundingClientRect();
+        this.changeFlagWatchTags(true);
+      },
+      goBibliography: function(){
+        this.$router.push('/bibliography');
+        /*this.isActive1=false;
+        this.isActive2=false;
+        this.isActive3=false;
+        this.isActive4=true;*/
+        this.changeIsActive1(false);
+        this.changeIsActive2(false);
+        this.changeIsActive3(false);
+        this.changeIsActive4(true);
         this.isActive1=this.isActive1_;
         this.isActive2=this.isActive2_;
         this.isActive3=this.isActive3_;
