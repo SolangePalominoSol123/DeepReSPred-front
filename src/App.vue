@@ -315,11 +315,17 @@ export default {
       errorEmail:'',
       symbolShow:true,
       successPred:true,
-      seeSpinner:false
+      seeSpinner:false,
+      ipClientCurrent:'190.187.147.146'
     }
   },
   mounted(){    
-    console.log("Go to main")
+    console.log("--------------Go to main-------------");
+    fetch('https://api.ipify.org/?format=json').then(results=>results.json()).then(
+      data=>{
+        console.log("Current IPClient: "+data.ip);
+        this.ipClientCurrent=data.ip;
+      });
   },
   computed:{
     ...mapState(['flagWatchTabs','isActive1_','isActive2_','isActive3_','isActive4_','predIDsearch']),
@@ -610,7 +616,8 @@ export default {
               "idRequest" : this.IDPredictionReq,
               "email" : this.emailPredictionReq,
               "pfamID" : pfamID,
-              "typeInput" : this.typeInput
+              "typeInput" : this.typeInput,
+              "ipClient" : this.ipClientCurrent
           }
 
           //send data input - not from file
@@ -643,7 +650,8 @@ export default {
         }
       },
       sendRequestandFile : async function(dataSend){
-        console.log(this.typeInput);
+        console.log("Sending prediction data:");
+        console.log(dataSend);
 
         try{
           const response=await this.axios.post('/request/', dataSend);
