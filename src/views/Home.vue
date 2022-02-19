@@ -504,7 +504,7 @@ export default {
         if(this.isWatcheable(nameFull)){
             var urls3=this.getUrlS3(nameFull,1);
 
-            this.changeShowPDBImage('http://ubuntu@ec2-52-7-202-195.compute-1.amazonaws.com:9997/api'+urls3);
+            this.changeShowPDBImage('http://deeprespred-backp.duckdns.org:9997/api'+urls3);
 
             this.forceRerender();
             try{
