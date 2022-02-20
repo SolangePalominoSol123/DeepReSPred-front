@@ -6,7 +6,7 @@ import store from './store'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 
-axios.defaults.baseURL='http://deeprespred-backp.duckdns.org:9997/api/'
+axios.defaults.baseURL='http://deeprespred-back.duckdns.org:9997/api/'
 //axios.defaults.baseURL='http://localhost:9997/api'
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
