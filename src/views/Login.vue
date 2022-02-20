@@ -78,7 +78,7 @@ export default {
         this.errorContrasena="";
         if (this.contrasenaIn.length<1)this.errorContrasena="Insert a password";
         else if (this.contrasenaIn.length<3)this.errorContrasena="Min. 3 caracters";
-        else if (this.contrasenaIn.length>6)this.errorContrasena="Máx. 6 caracters";
+        else if (this.contrasenaIn.length>12)this.errorContrasena="Máx. 12 caracters";
     },
     verificarCampos: function(){
         this.errorGeneral="";
@@ -98,7 +98,7 @@ export default {
                 aContrasena:this.contrasenaIn
             }
 
-            if((this.usuarioIn=="admin")&&(this.contrasenaIn=="admin")){
+            if((this.usuarioIn=="admin")&&(this.contrasenaIn=="#REPEAT2021#")){
                 this.$router.push('/administration');
             }
         /*

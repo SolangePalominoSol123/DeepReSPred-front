@@ -46,7 +46,8 @@
 
               <h3 class="labels">Download the predicted 3D protein models (PDB files)</h3>
               <h3 class="labels" style="color: #109E2A;font-weight: bold;text-align: center;" v-if="flagMessageResults">---  Loading...  ---</h3>
-              <h3 class="littleBold" style="margin-top:40px;margin-bottom:40px;" v-if="disabledResend">No generated results yet</h3>
+              <h3 class="littleBold" style="margin-top:40px;margin-bottom:40px;" v-if="unfinishedProcess">No generated results yet</h3>
+              <h3 class="littleBold" style="margin-top:40px;margin-bottom:40px;" v-if="(!unfinishedProcess) && (filesResult.length<=0)">No predictions have been generated from the entered repeat protein family</h3>
               
               <!--div>  MODELOS GENERADOS     </div-->  
               <div class="rowLabel2" v-for="(item,index) in filesResultShowed" :key="index">
@@ -60,7 +61,7 @@
               </div>
 
               <!--div>  PAGINATION </div-->  
-              <nav aria-label="Page navigation example" v-if="!disabledResend">
+              <nav aria-label="Page navigation example" v-if="(!unfinishedProcess) && (filesResult.length>0)">
                   <ul class="pagination" style="place-content: center;align-items: center;">
                       <li class="page-item">              
                       <button type="button" class="page-link" @click="page=1;actualiza(page);" style="border-style: none;"> 
@@ -110,7 +111,7 @@
                 <span class="msgErrorSpan">{{errorEmail}}</span>
               </div>
               <div class="rowLabelItem">
-                <button @click="resendPrediction" class="btn btn-warning" :disabled="disabledResend && (filesResult.length==0)">Send</button>
+                <button @click="resendPrediction" class="btn btn-warning" :disabled="unfinishedProcess || (filesResult.length==0)">Send</button>
               </div>
             </div>
 
@@ -123,7 +124,7 @@
               </div>
             </div>
             <div style="margin-top:20px;margin-bottom:20px;clear: both;margin:10px;position:relative;height:500px;">
-              <img class="viewPredict" v-bind:class="{opaqueClass:disabledResend}" src="@/assets/rasmol_align.png"/>
+              <img class="viewPredict" v-bind:class="{opaqueClass:unfinishedProcess}" src="@/assets/rasmol_align.png"/>
               <!--pdbe-molstar id="pdbeMolstarComponent" custom-data-url="http://192.168.1.13:9997/api/s3file/?code=prueba" custom-data-format="pdb" hide-controls="true"></pdbe-molstar-->         
               <pdbe-molstar ref="pdbeMolstarComponent" :key="componentKey" :custom-data-url="returnShowPDBFlag" custom-data-format="pdb" hide-controls="true"></pdbe-molstar>
             </div>
@@ -222,7 +223,7 @@ export default {
       typeInputPred:'',
       inputRequestPred:'',
       disabledReq: true,  //disable until a request is searched
-      disabledResend: true, //disable until a searched request is completed
+      unfinishedProcess: true, //disable until a searched request is completed
       numResiduesReq: 0,
       myModalMessageSearch:false,
       messageTitleModal:'',
@@ -263,13 +264,20 @@ export default {
       return this.showPDBImage;       
     }
   },
+  mounted(){
+    var idRequestURL=this.$route.params.idRequest;   
+    if(idRequestURL!="" && idRequestURL!='' && idRequestURL!=undefined){
+      console.log("Looking for idRequest: "+idRequestURL);
+      this.changePredIDsearch(idRequestURL);
+      this.searchPrediction();
+    }
+  },
   methods:{
     ...mapActions(['changePredIDsearch','changeShowPDBImage']),
     forceRerender() { 
       this.componentKey += 1;
     },
       adminLogin: function(){
-        console.log("Go to admin login");
         this.$router.push('/adminLogin');
       },
       goToolInst: function(){
@@ -308,7 +316,7 @@ export default {
                   list_files_to_send_email.push(filenameDownloaded);
                 }
               }catch(e){
-                console.log("error downloagind result files to resend");
+                console.log("error downloading result files to resend");
               }
             }
 
@@ -338,12 +346,12 @@ export default {
                     this.openModalMessageSearch();
                     this.messageTitleModal="Error Message";
                     this.messageModal="The Prediction request entered not exists. Search again using another request ID.";
-                    this.disabledResend=true;
+                    this.unfinishedProcess=true;
                     this.dataSeqContentReq='No requested sequence';
                     this.numResiduesReq=0;
                     break;
                   case 1:
-                    this.disabledResend=true;
+                    this.unfinishedProcess=true;
                     this.dataSeqContentReq=this.inputRequestPred;
                     
                     if(this.typeInputPred=="pfamCode")this.numResiduesReq=0;
@@ -351,7 +359,7 @@ export default {
 
                     break;
                   case 3:
-                    this.disabledResend=true;
+                    this.unfinishedProcess=true;
                     this.dataSeqContentReq=this.inputRequestPred;
                     
                     if(this.typeInputPred=="pfamCode")this.numResiduesReq=0;
@@ -360,7 +368,7 @@ export default {
                     break;
                   case 4:
                     console.log("Case: Finalized");
-                    this.disabledResend=false;
+                    this.unfinishedProcess=false;
                     this.dataSeqContentReq=this.inputRequestPred;
                     
                     if(this.typeInputPred=="pfamCode")this.numResiduesReq=0;
@@ -376,7 +384,7 @@ export default {
                     this.openModalMessageSearch();
                     this.messageTitleModal="Error Message";
                     this.messageModal="The Prediction request presented some errors. Please try sending your prediction request again.";
-                    this.disabledResend=true;
+                    this.unfinishedProcess=true;
                     this.dataSeqContentReq=this.inputRequestPred;
                     if(this.typeInputPred=="pfamCode")this.numResiduesReq=0;
                     else this.numResiduesReq=this.dataSeqContentReq.length;        
@@ -454,7 +462,7 @@ export default {
             this.openModalMessageSearch();
             this.messageTitleModal="Error Message";
             this.messageModal="An error has occurred in searching the prediction request. Review the request ID and try again.";
-            this.disabledResend=true;
+            this.unfinishedProcess=true;
             this.dataSeqContentReq='No requested sequence';
             this.numResiduesReq=0;
           }finally{

@@ -8,11 +8,12 @@ const routes = [
     component: Home,
   },
   {
-    path: "/",
+    path: "/:idRequest",
     name: "Search_Prediction",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/SearchPrediction.vue"),
+      import(/* webpackChunkName: "about" */ "../views/Home.vue"),
   },
+
   {
     path: "/toolInstructions",
     name: "Tool_instructions",

@@ -25,12 +25,12 @@
                     <div :class="['row','filaModalInf']">
                         <div class="col">                                                                     
                             <label>Number of CPU's used</label>                          
-                            <input type="number" class="form-control form-control-sm" v-model="cpuNumber" :disabled="!flagEdicion" @input="validaCpuNumber">
+                            <input type="number" class="form-control form-control-sm" v-model="cpuNumber" :disabled="true" @input="validaCpuNumber" >
                             <span class="mensajeError">{{errorNumberCpu}}</span>
                         </div>   
                         <div class="col">
                             <label>Max. residues</label>
-                            <input type="number" class="form-control form-control-sm" v-model="maxResidues" :disabled="!flagEdicion" @input="validaMaxResidues">
+                            <input type="number" class="form-control form-control-sm" v-model="maxResidues" :disabled="true" @input="validaMaxResidues" disable>
                             <span class="mensajeError">{{errorMaxResidues}}</span>
                         </div> 
                         <div class="col">
@@ -122,7 +122,7 @@
                             </tr>
                         </tbody>          
                         </table>
-                            <h6 v-if="listedAccesses.length==0" class="text-center">No se encontraron registros</h6>
+                            <h6 v-if="listedAccesses.length==0" class="text-center">No requests registered today</h6>
                         </div>         
                         
                         <nav aria-label="Page navigation example">
