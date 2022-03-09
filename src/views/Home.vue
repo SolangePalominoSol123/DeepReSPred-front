@@ -55,7 +55,9 @@
                 <div><h3 class="labels" style="font-weight: 600;">{{item.nameFile}} </h3></div>
                 <div><h3 class="labels" style="font-weight: 600;margin-left:20px;margin-right:20px;" v-if="item.tmscore!=0">TM-score: {{item.tmscore}}</h3></div>
                 <div class="rowLabelItem" style="cursor:pointer;font-size: 12px;font-weight: 200; text-decoration: underline dotted;text-underline-offset: 3px;" @click="onClickLinkFile(item)">
-                  <span class="material-icons" style="cursor:pointer;" @click="onClickLinkFile(item)">file_download</span>Download</div>
+                  <span class="material-icons" style="cursor:pointer;" @click="onClickLinkFile(item)">file_download</span>Download PDB</div>
+                <div class="rowLabelItem" style="cursor:pointer;font-size: 12px;font-weight: 200; text-decoration: underline dotted;text-underline-offset: 3px;" @click="onClickLinkFileFasta(index)">
+                  <span class="material-icons" style="cursor:pointer;" @click="onClickLinkFileFasta(index)">file_download</span>Download Fasta</div>
                 <div class="rowLabelItem" style="cursor:pointer;font-size: 12px;font-weight: 200; text-decoration: underline dotted;text-underline-offset: 3px;" @click="onClickSeeResult(item)">
                   <span class="material-icons" style="cursor:pointer;" @click="onClickSeeResult(item)">preview</span>Preview</div>
               </div>
@@ -107,11 +109,11 @@
                 <h3 class="labels" style="font-weight: 600;">Insert an email: </h3>
               </div>
               <div class="rowLabelItem" style="width: 50%;">
-                <input type="text" class="form-control form-control-sm" placeholder="i.e. name@example.com" v-model="emailPredictionReq" @input="verifyEmail"/>
+                <input type="text" class="form-control form-control-sm" placeholder="i.e. name@example.com" v-model="emailPredictionReq" @input="verifyEmail" :disabled="unfinishedProcess || (filesResult.length==0)"/>
                 <span class="msgErrorSpan">{{errorEmail}}</span>
               </div>
               <div class="rowLabelItem">
-                <button @click="resendPrediction" class="btn btn-warning" :disabled="unfinishedProcess || (filesResult.length==0)">Send</button>
+                <button @click="resendPrediction" class="btn btn-warning" :disabled="(emailPredictionReq.length==0) || (emailPredictionReq=='')">Send</button>
               </div>
             </div>
 
@@ -124,7 +126,7 @@
               </div>
             </div>
             <div style="margin-top:20px;margin-bottom:20px;clear: both;margin:10px;position:relative;height:500px;">
-              <img class="viewPredict" v-bind:class="{opaqueClass:unfinishedProcess}" src="@/assets/rasmol_align.png"/>
+              <img class="viewPredict" v-bind:class="{opaqueClass:true}" src="@/assets/rasmol_align.png"/>
               <!--pdbe-molstar id="pdbeMolstarComponent" custom-data-url="http://192.168.1.13:9997/api/s3file/?code=prueba" custom-data-format="pdb" hide-controls="true"></pdbe-molstar-->         
               <pdbe-molstar ref="pdbeMolstarComponent" :key="componentKey" :custom-data-url="returnShowPDBFlag" custom-data-format="pdb" hide-controls="true"></pdbe-molstar>
             </div>
@@ -235,8 +237,8 @@ export default {
       componentKey: 0,
       emailPredictionReq:'',
       predIDsearchAux:'',
+      filesInput:[],
       filesMiddle:[],
-
       filesResult:[],
       filesResultShowed:[],
       numberResultsShow:5,
@@ -299,9 +301,9 @@ export default {
         if((this.emailPredictionReq!="") && (this.errorEmail=='')){
           console.log("Resending email results to email: "+ this.emailPredictionReq);
 
-          var list_files_to_send_email=[];
+          //var list_files_to_send_email=[];
           if(this.filesResult.length!=0){
-            for(var resultFile of this.filesResult){
+            /*for(var resultFile of this.filesResult){
               console.log(resultFile);
               var nameResultFile=resultFile["nameFile"];
               var urls3=this.getUrlS3(nameResultFile,2);
@@ -318,10 +320,10 @@ export default {
               }catch(e){
                 console.log("error downloading result files to resend");
               }
-            }
+            }*/
 
             //send email
-            if(list_files_to_send_email.length!=0){
+            /*if(list_files_to_send_email.length!=0){
               var dataSend={
                 "listFilesLocal":list_files_to_send_email,
                 "email":this.emailPredictionReq,
@@ -334,6 +336,19 @@ export default {
               }catch(e){
                 console.log("error downloading result files to resend");
               }
+            }*/
+            var dataSend={
+                "email":this.emailPredictionReq,
+                "idRequest":this.predIDsearch,
+                "inputType" : this.typeInputPred,
+                "inputContent" : this.dataSeqContentReq
+            }
+
+            try{
+                var responseResult=await this.axios.post('/sendEmail/', dataSend);
+                this.emailPredictionReq="";
+            }catch(e){
+                console.log("error downloading result files to resend");
             }
           }
         }
@@ -394,20 +409,23 @@ export default {
 
       },
       searchPrediction: async function(){
-
+        this.changeShowPDBImage("");
+        this.forceRerender();
         console.log("Look for: "+this.predIDsearch);
+        this.filesResult=[]
+        this.filesResultShowed=[]
 
         if(this.predIDsearch!=''){
 
               var dataSend={
                   "idRequest" : this.predIDsearch
               }
-              console.log("sending:")
-              console.log(dataSend);
+              //console.log("sending:")
+              //console.log(dataSend);
           
           try{
             const response=await this.axios.post('/searchpred/',dataSend);
-            console.log(response)
+            //console.log(response)
             var dataRsp=response.data;
             this.statusReqId=dataRsp.idStatus;
 
@@ -423,6 +441,7 @@ export default {
                 var filesMiddle=dataFiles["filesMiddle"]
                 var filesResult=dataFiles["filesResult"]
 
+                this.filesInput=filesInput;
                 this.filesMiddle=filesMiddle;
                 this.filesResult=filesResult;
                 this.setPages();
@@ -504,6 +523,38 @@ export default {
                 });  
               
       },
+      onClickLinkFileFasta(index) {
+
+        var posItem = (((this.page-1)*this.perPage)+index)*3
+
+        var item = this.filesMiddle[posItem];
+        
+          this.flagMessageResults=true;
+          console.log("downloading...");
+              var nameFull=item.nameFile;
+              var urls3=this.getUrlS3(nameFull,1);
+
+              this.axios({
+                    url: urls3,
+                    method: 'GET',
+                    responseType: 'blob',
+                }).then((response) => {
+                     var fileURL = window.URL.createObjectURL(new Blob([response.data]));
+                     var fileLink = document.createElement('a');
+   
+                     fileLink.href = fileURL;
+                     fileLink.setAttribute('download', nameFull);
+                     document.body.appendChild(fileLink);
+   
+                     fileLink.click();
+                     this.flagMessageResults=false;
+                }).catch(e=>{
+                    console.log(e);
+                    console.log("error");
+                    this.flagMessageResults=false;
+                });
+              
+      },
       onClickSeeResult(item) {
         console.log("downloading...");
         var nameFull=item.nameFile;
@@ -564,14 +615,14 @@ export default {
           let to = (page * perPage);
           return  this.filesResult.slice(from, to);
       },
-      toListAccess () { //a este se le llama despues de buscar
+      toListFileResults () { //a este se le llama despues de buscar
           this.filesResultShowed=this.paginate(this.filesResult);
           console.log("ver: ",this.filesResult);
        },
       actualiza(pagina){
           console.log(pagina);
           this.page=pagina;
-          this.toListAccess();
+          this.toListFileResults();
       }
 
   }
@@ -858,6 +909,10 @@ button.page-link {
   color: #341731;
   font-weight: 500;
   background: unset;
+}
+
+#inputSequence:disabled {
+    color: #37383d;
 }
 
 
