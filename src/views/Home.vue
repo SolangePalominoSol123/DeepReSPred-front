@@ -563,7 +563,7 @@ export default {
         if(this.isWatcheable(nameFull)){
             var urls3=this.getUrlS3(nameFull,1);
 
-            this.changeShowPDBImage('http://deeprespred-back.duckdns.org:9997/api'+urls3);
+            this.changeShowPDBImage('http://deeprespred-api.bioinformatica.org:9997/api'+urls3);
 
             this.forceRerender();
             try{
