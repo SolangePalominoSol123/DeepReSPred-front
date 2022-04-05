@@ -1,6 +1,6 @@
 # DeepReSPred front-end project
 
-This is the front-end component of the Deep Repeat protein Structure Predictor tool.
+This is the front-end component of the Deep Repeat protein Structure Predictor tool, DeepReSPred.
 
 ## Installation
 
@@ -28,5 +28,5 @@ Please make sure to update tests as appropriate.
 
 ## DeepReSPred back-end repository
 
-The DeepReSPred tool need a back-end component to work out. This component is available in other repository. The docker configuration is still in process. Check the repository 
+The DeepReSPred tool needs a back-end component to work out. This component is available in other repository. The docker configuration is still in process. Check the repository 
 [DeepReSPred back-end](https://github.com/SolangePalominoSol123/DeepReSPred2-backend)
