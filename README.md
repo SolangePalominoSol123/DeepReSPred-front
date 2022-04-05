@@ -15,7 +15,7 @@ docker run -dp 8080:80 -it --name <container-name> <image-name>
 
 ## Configuration variable
 
-The file main.js has the [urlbackendapi]() variable, which value could change in order to invoke the deployed back-end DeepReSPred services. To modify that value, edit to the [main.js]() file with the following command:
+The file main.js has the [urlbackendapi]() variable, which value could change in order to invoke the deployed back-end DeepReSPred services. To modify that value, edit to the [main.js](https://github.com/SolangePalominoSol123/DeepReSPred-front/blob/main/src/main.js) file with the following command:
 
 ```bash
 vim /src/main.js
