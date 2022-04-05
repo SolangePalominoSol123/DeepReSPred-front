@@ -2,7 +2,7 @@
   <div class="tabSection">
     <h1>Bibliography</h1>
     <p>DeepReSPred is a web service that uses many resources that are available for free. Some of them with free educational licenses requested directly from the owners. In addition, information has been collected from different sources, thanks to which this project has been able to be carried out. The DeepReSPred team thanks each of the authors.</p>
-    <p>In this section you will find the information of researchs, web pages or softwares, in general, that has been used to build the whole algorithm presented in this web page.</p>
+    <p>In this section you will find the information of some researchs, web pages or softwares, in general, that has been used to build the whole algorithm presented in this web page.</p>
 
 
     <div class="resulRequest" > 

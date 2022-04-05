@@ -98,23 +98,9 @@ export default {
                 aContrasena:this.contrasenaIn
             }
 
-            if((this.usuarioIn=="admin")&&(this.contrasenaIn=="#REPEAT2021#")){
+            if((this.usuarioIn=="admin")&&(this.contrasenaIn==this.adminsecurity)){
                 this.$router.push('/administration');
             }
-        /*
-            this.axios.post('/usuario/verificar',attemp).then(response=>{          
-            var dataResp=response.data;
-            console.log(dataResp);
-                if (dataResp){
-                    this.saveLogin(attemp);  
-                    this.$router.push('/mantenimiento/pedidos');
-                    console.log("logueo exitoso");
-                }else{
-                    this.errorGeneral="Usuario o contraseña incorrecta."
-                }
-            }).catch(e=>{
-                console.log(e);
-            });   */ 
         }
     },
     revelarContraseña: function(){

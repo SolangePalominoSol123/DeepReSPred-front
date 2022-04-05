@@ -31,7 +31,6 @@
             <div>
               <h3 class="labels">Download the predicted 3D protein models (PDB files)</h3>
               <h3 class="littleBold" style="margin-top:40px;margin-bottom:40px;" v-if="disabledResend">No generated results yet</h3>
-              <!--div>FALTAN LOS MODELOS GENERADOS</div-->
             </div>
             <div>
               <h3 class="labels">Re-send generated results to email</h3>

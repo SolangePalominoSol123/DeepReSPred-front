@@ -6,8 +6,16 @@ import store from './store'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 
-axios.defaults.baseURL='http://deeprespred-api.bioinformatica.org:9997/api/'
-//axios.defaults.baseURL='http://localhost:9997/api'
+//UPDATE URL TO BACKEND API DEEPRESPRED
+const urlbackendapi='http://deeprespred-api.bioinformatica.org:9997/api/'
+const adminsecurity='#REPEAT2021#'
+
+//NO UPDATE
+axios.defaults.baseURL=urlbackendapi
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
-createApp(App).use(store).use(router).use(VueAxios,axios).mount('#app')
+const app=createApp(App)
+app.config.globalProperties.urlbackend=urlbackendapi
+app.config.globalProperties.adminsecurity=adminsecurity
+
+app.use(store).use(router).use(VueAxios,axios).mount('#app')
