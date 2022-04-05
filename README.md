@@ -4,7 +4,7 @@ This is the front-end component of the Deep Repeat protein Structure Predictor t
 
 ## Installation
 
-Use the following commands to deploy this component with  [docker](https://www.docker.com/). It is the easiest and fastest way to make it. It will use the 8080 environment port by default.
+Use the following commands to deploy this component with  [docker](https://www.docker.com/). It is the easiest and fastest way to make it. It will use the 8080 environment port by default. Replace the variables in angle brackets [<>]()
 
 ```bash
 git clone <url_current_repository>
