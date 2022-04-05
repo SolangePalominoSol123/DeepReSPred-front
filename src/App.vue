@@ -1,5 +1,5 @@
 <template>
-  <MainHeader/> <!-- :isActiveTag1="returnValueActive1()" :isActiveTag2="returnValueActive2()" :isActiveTag3="returnValueActive3()" :isActiveTag4="returnValueActive4()"-->
+  <MainHeader/> 
   
   <!-- Header with Slideshow -->
   <header class="mainHeader" v-if="returnValueFlag">
