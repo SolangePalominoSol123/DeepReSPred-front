@@ -36,8 +36,6 @@
               <textarea class="form-control" id="inputSequence" rows="5" placeholder="Requested sequence" v-model="dataSeqContentReq" :disabled="true"></textarea>
             </div>
             <div class="rowStatusearch" style="justify-content: right;">
-              <!--h3 class="labels">Residues quantity: </h3-->
-              <!--h3 class="littleBold">{{numResiduesReq}}</h3-->
             </div>
             <div style="margin-top:20px;">
               <h3 class="titleBold">Prediction Results</h3>
@@ -127,7 +125,6 @@
             </div>
             <div style="margin-top:20px;margin-bottom:20px;clear: both;margin:10px;position:relative;height:500px;">
               <img class="viewPredict" v-bind:class="{opaqueClass:true}" src="@/assets/rasmol_align.png"/>
-              <!--pdbe-molstar id="pdbeMolstarComponent" custom-data-url="http://192.168.1.13:9997/api/s3file/?code=prueba" custom-data-format="pdb" hide-controls="true"></pdbe-molstar-->         
               <pdbe-molstar ref="pdbeMolstarComponent" :key="componentKey" :custom-data-url="returnShowPDBFlag" custom-data-format="pdb" hide-controls="true"></pdbe-molstar>
             </div>
             <div class="rowTitleSearch">
@@ -254,7 +251,6 @@ export default {
     ...mapState(['predIDsearch','showPDBImage']),   
     setgetPredIDsearch:{
       get(){
-        ///this.predIDsearchAux=this.predIDsearch;
         return this.predIDsearch;
       },
       set(value){
@@ -301,42 +297,8 @@ export default {
         if((this.emailPredictionReq!="") && (this.errorEmail=='')){
           console.log("Resending email results to email: "+ this.emailPredictionReq);
 
-          //var list_files_to_send_email=[];
           if(this.filesResult.length!=0){
-            /*for(var resultFile of this.filesResult){
-              console.log(resultFile);
-              var nameResultFile=resultFile["nameFile"];
-              var urls3=this.getUrlS3(nameResultFile,2);
-
-              try{
-                var responseResult=await this.axios.get(urls3);
-                var responseData=responseResult.data;
-                console.log(responseResult.data);
-
-                if(!responseData["error"]){
-                  var filenameDownloaded=responseData["fullNamePath"];
-                  list_files_to_send_email.push(filenameDownloaded);
-                }
-              }catch(e){
-                console.log("error downloading result files to resend");
-              }
-            }*/
-
-            //send email
-            /*if(list_files_to_send_email.length!=0){
-              var dataSend={
-                "listFilesLocal":list_files_to_send_email,
-                "email":this.emailPredictionReq,
-                "idRequest":this.predIDsearch
-              }
-              try{
-                var responseResult=await this.axios.post('/sendEmail/', dataSend);
-                var responseData=responseResult.data;
-                console.log(responseResult.data);
-              }catch(e){
-                console.log("error downloading result files to resend");
-              }
-            }*/
+           
             var dataSend={
                 "email":this.emailPredictionReq,
                 "idRequest":this.predIDsearch,
@@ -420,12 +382,10 @@ export default {
               var dataSend={
                   "idRequest" : this.predIDsearch
               }
-              //console.log("sending:")
-              //console.log(dataSend);
           
           try{
             const response=await this.axios.post('/searchpred/',dataSend);
-            //console.log(response)
+
             var dataRsp=response.data;
             this.statusReqId=dataRsp.idStatus;
 
@@ -563,7 +523,7 @@ export default {
         if(this.isWatcheable(nameFull)){
             var urls3=this.getUrlS3(nameFull,1);
 
-            this.changeShowPDBImage('http://deeprespred-api.bioinformatica.org:9997/api'+urls3);
+            this.changeShowPDBImage(this.urlbackend+urls3);
 
             this.forceRerender();
             try{
@@ -586,7 +546,7 @@ export default {
         var fileName=nameFull.slice(0,posDot);
         var extension=nameFull.slice(posDot+1,nameFull.length);
 
-        return '/s3file/?code='+fileName+'&ext='+extension+'&typed='+type;
+        return 's3file/?code='+fileName+'&ext='+extension+'&typed='+type;
       },
       isWatcheable(name){
         var nameFull=name;
@@ -615,7 +575,7 @@ export default {
           let to = (page * perPage);
           return  this.filesResult.slice(from, to);
       },
-      toListFileResults () { //a este se le llama despues de buscar
+      toListFileResults () { 
           this.filesResultShowed=this.paginate(this.filesResult);
           console.log("ver: ",this.filesResult);
        },

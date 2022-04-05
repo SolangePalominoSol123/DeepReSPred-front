@@ -271,7 +271,6 @@ export default {
         this.errorMaxResidues="";
       }
       this.flagCancela=true;
-      //si hubo error cargar los valores iniciales
     },
     updateStatusIn: function(){
         var value=this.$refs.statusFilter.value;
@@ -310,11 +309,9 @@ export default {
         this.abreModal();       
     },
     habilitarEdicion:function(){
-      //habilitar campos a editar
       this.flagEdicion=true;
     },
     sendConfig: function(){
-        //enviar parametros
         this.flagConfirma=false;
         
         this.validaCpuNumber();
@@ -424,7 +421,7 @@ export default {
 			let to = (page * perPage);
 			return  this.listAccesses.slice(from, to);
 	},
-    toListAccess () { //a este se le llama despues de buscar
+    toListAccess () { 
       this.listedAccesses=this.paginate(this.listAccesses);
       console.log("ver: ",this.listedAccesses);
 	},
